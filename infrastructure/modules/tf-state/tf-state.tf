@@ -29,6 +29,6 @@ resource "aws_ecs_service" "dev-ecs" {
 
   placement_constraints {
     type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
+    expression = "attribute:ecs.availability-zone in [us-east-1, us-east-1b]"
   }
 }
