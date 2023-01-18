@@ -1,5 +1,6 @@
-resource "aws_ecr_repository" "ecrrepo" {
-  name                 = "myecr-repo"
+#ecr repository
+resource "aws_ecr_repository" "production" {
+  name                 = "prod-env"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -7,14 +8,24 @@ resource "aws_ecr_repository" "ecrrepo" {
   }
 }
 
+#ecs cluster
+resource "aws_ecs_cluster" "production" {
+  name = "white-hart"
 
-resource "aws_ecs_service" "dev-ecs" {
-  name            = "development"
-  cluster         = aws_ecs_cluster.foo.id
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+}
+
+#ecs service
+resource "aws_ecs_service" "mongo" {
+  name            = "mongodb"
+  cluster         = aws_ecs_cluster.production.id
   task_definition = aws_ecs_task_definition.mongo.arn
   desired_count   = 3
-  iam_role        = aws_iam_role.foo.arn
-  depends_on      = [aws_iam_role_policy.foo]
+  iam_role        = aws_iam_role.production.arn
+  depends_on      = [aws_iam_role_policy.production]
 
   ordered_placement_strategy {
     type  = "binpack"
@@ -22,13 +33,13 @@ resource "aws_ecs_service" "dev-ecs" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.foo.arn
-    container_name   = "development"
+    target_group_arn = aws_lb_target_group.production.arn
+    container_name   = "mongo"
     container_port   = 8080
   }
 
   placement_constraints {
     type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-east-1, us-east-1b]"
+    expression = "attribute:ecs.availability-zone in [us-east-1a, us-east-1b]"
   }
 }
