@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  awsecrproject:
+    image: ${DOCKER_REGISTRY-}awsecrproject
+    build:
+      context: .
+      dockerfile: AwsEcrProject/Dockerfile
