@@ -1,6 +1,6 @@
 #ecr repository
 resource "aws_ecr_repository" "production" {
-  name                 = "test-env"
+  name                 = "test-env2"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -8,15 +8,15 @@ resource "aws_ecr_repository" "production" {
   }
 }
 
-#ecs cluster
-resource "aws_ecs_cluster" "production" {
-  name = "white-hart"
+# #ecs cluster
+# resource "aws_ecs_cluster" "production" {
+#   name = "white-hart"
 
-  setting {
-    name  = "containerInsights"
-    value = "enabled"
-  }
-}
+#   setting {
+#     name  = "containerInsights"
+#     value = "enabled"
+#   }
+# }
 
 # #ecs service
 # resource "aws_ecs_service" "mongo" {
