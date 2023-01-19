@@ -60,10 +60,9 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: poc-env3
-        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+        IMAGE_TAG: latest
 
-      working-directory: AwsEcrProject
       run: |
-        docker build . --file Dockerfile --tag my-dotnetcore-app:$(date +%s)
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
