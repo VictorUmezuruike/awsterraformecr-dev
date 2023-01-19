@@ -59,11 +59,11 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: poc-env
-        IMAGE_TAG: latest
+        ECR_REPOSITORY: poc-env3
+        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
 
       working-directory: AwsEcrProject
       run: |
-        docker build . --file Dockerfile --tag latest
+        docker build . --file Dockerfile --tag ${{ steps.increment-git-tag.outputs.git-tag }}
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
