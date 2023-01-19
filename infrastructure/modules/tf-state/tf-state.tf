@@ -1,6 +1,6 @@
 #ecr repository
 resource "aws_ecr_repository" "production" {
-  name                 = "prod-env2"
+  name                 = "prod-env"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
