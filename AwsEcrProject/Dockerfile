@@ -5,18 +5,16 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["AwsEcrProject/AwsEcrProject.csproj", "AwsEcrProject/"]
-RUN dotnet restore "AwsEcrProject/AwsEcrProject.csproj"
-COPY . .
-WORKDIR "/src/AwsEcrProject"
-RUN dotnet build "AwsEcrProject.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "AwsEcrProject.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+
+COPY . ./
+RUN dotnet restore
+
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 
+WORKDIR /app
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "AwsEcrProject.dll"]
