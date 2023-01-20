@@ -64,6 +64,6 @@ jobs:
 
       working-directory: AwsEcrProject
       run: |
-        docker build . --file Dockerfile --tag poc:latest 573036024699.dkr.ecr.us-east-1.amazonaws.com/poc:latest
+        docker build . --file Dockerfile --tag 573036024699.dkr.ecr.us-east-1.amazonaws.com/poc:latest
         docker push 573036024699.dkr.ecr.us-east-1.amazonaws.com/poc:latest
         
