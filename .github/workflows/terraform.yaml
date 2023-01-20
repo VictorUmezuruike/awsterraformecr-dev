@@ -64,6 +64,6 @@ jobs:
 
       working-directory: AwsEcrProject
       run: |
-        docker build . --file Dockerfile --tag myapp:$(date +%s)
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build . --file Dockerfile --tag poc:latest 573036024699.dkr.ecr.us-east-1.amazonaws.com/poc:latest
+        docker push 573036024699.dkr.ecr.us-east-1.amazonaws.com/poc:latest
         
